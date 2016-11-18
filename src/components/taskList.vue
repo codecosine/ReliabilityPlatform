@@ -50,7 +50,7 @@
               <td>
                 <div class="operate-cell">
                   <a href="">查看</a>
-                  <a :href="item.resultFile">下载</a>
+                  <a role="button" v-bind:href="'/download?resultFile='+item.resultFile">下载</a>
                 </div>
               </td>
             </tr>
@@ -192,6 +192,10 @@
   .ip-cell p{
     line-height: 10px;
     font-size: 12px;
+  }
+  .operate-cell a:not([href]):not([tabindex]) {
+    color: #2277da;
+    text-decoration: none;
   }
   .operate-cell a{
     font-size: 14px;

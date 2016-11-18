@@ -31,7 +31,7 @@
                     <strong>上传失败!</strong>
                   </li>
                   <li>文件名：{{file.name}}</li>
-                  <li>大小：{{file.size}}</li>
+                  <li>大小：{{file.size | formatSize}}</li>
                 </ul>
                 <small class="form-text text-muted">文件信息</small>
             </div>
@@ -59,11 +59,9 @@
           <div class="form-group row">
             <label class="col-xs-1 col-form-label"></label>
             <div class="col-xs-6">
-
               <button type="submit" v-on:click="addTask" class="btn btn-primary addTaskbtn" :disabled="valid.pass">添加到任务列表</button>
-              <li class="alert alert-info" v-if="addTaskStatu" role="alert">
-                <strong>任务添加成功</strong>
-              </li>
+              <span v-if="addTaskSuccess" class="text-info">任务添加成功</span>
+              <span v-if="addTaskFail" class="text-danger">任务添加失败</span>
             </div>
           </div>
         </div>
@@ -79,10 +77,25 @@
       components: {
         FileUpload,
       },
+      filters: {
+        formatSize(size) {
+          if (size > 1024 * 1024 * 1024 * 1024) {
+            return `${(size / 1024 / 1024 / 1024 / 1024).toFixed(2)} TB`;
+          } else if (size > 1024 * 1024 * 1024) {
+            return `${(size / 1024 / 1024 / 1024).toFixed(2)} GB`;
+          } else if (size > 1024 * 1024) {
+            return `${(size / 1024 / 1024).toFixed(2)} MB`;
+          } else if (size > 1024) {
+            return `${(size / 1024).toFixed(2)} KB`;
+          }
+          return `${size.toString()} B`;
+        },
+      },
       data() {
         return {
           /* 提交任务表单 */
-          addTaskStatu: false,
+          addTaskSuccess: false,
+          addTaskFail: false,
           algorithm: 'IRE',
           remark: '',
           /* 算法参数 */
@@ -160,8 +173,9 @@
               remark: this.remark,
             })
             .then(() => {
-              this.addTaskStatu = true;
+              this.addTaskSuccess = true;
             }, (err) => {
+              this.addTaskFail = true;
               console.error(err);
             });
         },
