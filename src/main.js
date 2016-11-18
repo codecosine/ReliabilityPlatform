@@ -12,10 +12,10 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 
 const routes = [
+  { path: '/', component: addTask },
   { path: '/addTask', component: addTask },
   { path: '/taskList', component: taskList },
 ];
-
 const router = new VueRouter({
   routes,
 });

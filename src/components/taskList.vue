@@ -6,7 +6,7 @@
         <div class="text-xs-center" >加载列表中......
         </div>
       </div>
-      <div class="row">
+      <div class="row cs-content">
         <div class="col-lg-6">
           <button type="button" class="btn btn-primary"  v-on:click="$router.push('/addTask')">+ 新建任务</button>
         </div>
@@ -14,7 +14,7 @@
             <div class="input-group">
               <input type="text" class="form-control" placeholder="输入算法名/操作时间进行搜索...">
             </div>
-          </div>
+        </div>
         <div class="col-lg-12">
           <table class="table table-list">
             <thead class="thead-default">
@@ -129,7 +129,7 @@
             id: '6c6824f5-284a-40d1-98a4-893a784c1b0a',
             resultFile: 'xls/6c6824f5-284a-40d1-98a4-893a784c1b0a.xls',
             dataFile: 'xls/a62849ce-7cbe-47ea-9438-32798814b5c4.xls',
-            remark: '我就问你有没有影响',
+            remark: '',
             algoName: 'CRE',
             subTime: 1479373843000,
             finTime: 1479373843000,
@@ -139,7 +139,7 @@
             id: '6c6824f5-284a-40d1-98a4-893a784c1b0a',
             resultFile: 'xls/6c6824f5-284a-40d1-98a4-893a784c1b0a.xls',
             dataFile: 'xls/a62849ce-7cbe-47ea-9438-32798814b5c4.xls',
-            remark: '计算中测试',
+            remark: '测试',
             algoName: 'CRE',
             subTime: 1479373843000,
             finTime: 1479373843000,
@@ -177,6 +177,12 @@
   };
 </script>
 <style>
+  .cs-content{
+    margin-top: 40px;
+  }
+  .table-list{
+    margin-top: 20px;
+  }
   .table-list thead tr th{
     font-size: 14px;
   }

@@ -16,7 +16,7 @@
                 :files="files"
                 ref="upload">
               </file-upload>
-              <small class="form-text text-muted">请选择需要的.xls文件，大小不超过1MB</small>
+              <small class="form-text text-muted">请选择需要的.xls文件</small>
 
             </div>
           </div>
@@ -52,14 +52,18 @@
           <div class="form-group row">
             <label class="col-xs-1 col-form-label metatit">备注</label>
             <div class="col-xs-4">
-              <input class="form-control" type="text" placeholder="remarks">
+              <input class="form-control" type="text" v-model="remark" placeholder="remark">
               <small class="form-text text-muted">添加备注以更方便标识任务</small>
             </div>
           </div>
           <div class="form-group row">
             <label class="col-xs-1 col-form-label"></label>
             <div class="col-xs-6">
+
               <button type="submit" v-on:click="addTask" class="btn btn-primary addTaskbtn" :disabled="valid.pass">添加到任务列表</button>
+              <li class="alert alert-info" v-if="addTaskStatu" role="alert">
+                <strong>任务添加成功</strong>
+              </li>
             </div>
           </div>
         </div>
@@ -78,6 +82,7 @@
       data() {
         return {
           /* 提交任务表单 */
+          addTaskStatu: false,
           algorithm: 'IRE',
           remark: '',
           /* 算法参数 */
@@ -85,7 +90,7 @@
             {
               name: 'IRE',
               args: '',
-              isSelected: false,
+              isSelected: true,
             },
             {
               name: 'CRE',
@@ -154,8 +159,8 @@
               algoName: this.algorithm,
               remark: this.remark,
             })
-            .then((res) => {
-              console.warn(res);
+            .then(() => {
+              this.addTaskStatu = true;
             }, (err) => {
               console.error(err);
             });
