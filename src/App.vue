@@ -4,7 +4,8 @@
       <div class="container">
         <ul class="nav">
           <li class="nav-item">
-            <router-link class="nav-link home" to="/taskList">计算平台</router-link>
+            <img src="./assets/logo_simple.png" style="width:40px">
+            <router-link class="nav-link home" to="/taskList"> 多功能推理计算平台</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/taskList" v-bind:class="{ 'active': $route.fullPath === '/taskList' }">任务列表</router-link>
@@ -68,4 +69,3 @@ export default {
     border-left: .3rem solid transparent;
   }
 </style>
-

@@ -12,7 +12,7 @@
         </div>
         <div class="col-lg-6">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="输入算法名/操作时间进行搜索...">
+              <input type="text" class="form-control" v-model="searchQuery" placeholder="输入算法名/备注进行搜索...">
             </div>
         </div>
         <div class="col-lg-12">
@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, index) in items">
+            <tr v-for="(item, index) in filteredItems">
               <th scope="row">{{ index+1 }}</th>
               <td>
                 <span>{{ item.remark }}</span>
@@ -50,7 +50,7 @@
               <td>
                 <div class="operate-cell">
                   <a href="">查看</a>
-                  <a role="button" v-bind:href="'/download?resultFile='+item.resultFile">下载</a>
+                  <a role="button" v-if="item.status === 1" v-bind:href="'/download?resultFile='+item.resultFile">下载</a>
                 </div>
               </td>
             </tr>
@@ -114,39 +114,27 @@
       return {
         loading: false,
         error: null,
+        searchQuery: '',
         items: [
           {
             id: '6c6824f5-284a-40d1-98a4-893a784c1b0a',
             resultFile: 'xls/6c6824f5-284a-40d1-98a4-893a784c1b0a.xls',
             dataFile: 'xls/a62849ce-7cbe-47ea-9438-32798814b5c4.xls',
-            remark: '',
+            remark: 'aaa',
             algoName: 'CRE',
             subTime: null,
             finTime: 1479373843000,
             status: 0,
           },
-          {
-            id: '6c6824f5-284a-40d1-98a4-893a784c1b0a',
-            resultFile: 'xls/6c6824f5-284a-40d1-98a4-893a784c1b0a.xls',
-            dataFile: 'xls/a62849ce-7cbe-47ea-9438-32798814b5c4.xls',
-            remark: '',
-            algoName: 'CRE',
-            subTime: 1479373843000,
-            finTime: 1479373843000,
-            status: 1,
-          },
-          {
-            id: '6c6824f5-284a-40d1-98a4-893a784c1b0a',
-            resultFile: 'xls/6c6824f5-284a-40d1-98a4-893a784c1b0a.xls',
-            dataFile: 'xls/a62849ce-7cbe-47ea-9438-32798814b5c4.xls',
-            remark: '测试',
-            algoName: 'CRE',
-            subTime: 1479373843000,
-            finTime: 1479373843000,
-            status: 2,
-          },
         ],
       };
+    },
+    computed: {
+      filteredItems() {
+        const self = this;
+        return self.items.filter(item => item.algoName.indexOf(self.searchQuery) !== -1 ||
+        item.remark.includes(self.searchQuery));
+      },
     },
     methods: {
       statusClassObject(status) {
@@ -187,7 +175,19 @@
     font-size: 14px;
   }
   .table-list tbody tr th{
-    font-size: 14px;
+    padding: 0.65rem;
+    vertical-align: middle;
+    border-top: 1px solid #eceeef;
+    font-size: 16px;
+  }
+  .table-list tbody tr td{
+    padding: 0.65rem;
+    vertical-align: middle;
+    border-top: 1px solid #eceeef;
+    font-size: 16px;
+  }
+  .ip-cell {
+    padding-top: 15px;
   }
   .ip-cell p{
     line-height: 10px;

@@ -60,10 +60,27 @@
             <label class="col-xs-1 col-form-label"></label>
             <div class="col-xs-6">
               <button type="submit" v-on:click="addTask" class="btn btn-primary addTaskbtn" :disabled="valid.pass">添加到任务列表</button>
-              <span v-if="addTaskSuccess" class="text-info">任务添加成功</span>
-              <span v-if="addTaskFail" class="text-danger">任务添加失败</span>
             </div>
           </div>
+          <div class="form-group row" v-if="addTaskSuccess">
+            <label class="col-xs-1 col-form-label"></label>
+            <div class="col-xs-5">
+              <div class="alert alert-success" role="alert">
+                <h5 class="alert-heading">任务添加成功!</h5>
+                <p>你可以到任务列表查看任务情况，或者继续添加任务！</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" v-if="addTaskFail">
+            <label class="col-xs-1 col-form-label"></label>
+            <div class="col-xs-5">
+              <div class="alert alert-danger" role="alert">
+                <h5 class="alert-heading">任务添加失败!</h5>
+                <p>请检查参数是否正确再重试。</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -76,6 +93,18 @@
     export default{
       components: {
         FileUpload,
+      },
+      watch: {
+        addTaskSuccess(value) {
+          if (value) {
+            this.changeFlag();
+          }
+        },
+        addTaskFail(value) {
+          if (value) {
+            this.changeFlag();
+          }
+        },
       },
       filters: {
         formatSize(size) {
@@ -120,6 +149,16 @@
               args: '',
               isSelected: false,
             },
+            {
+              name: 'IRE3',
+              args: '',
+              isSelected: false,
+            },
+            {
+              name: 'CRE3',
+              args: '',
+              isSelected: false,
+            },
           ],
           select(item) {
             this.algorithm = item.name;
@@ -144,7 +183,6 @@
       },
       computed: {
         fileName() {
-          console.warn(this.files);
           return this.files[0].response.fileName;
         },
         valid() {
@@ -178,6 +216,12 @@
               this.addTaskFail = true;
               console.error(err);
             });
+        },
+        changeFlag() {
+          setTimeout(() => {
+            this.addTaskSuccess = false;
+            this.addTaskFail = false;
+          }, 5000);
         },
       },
       mounted() {
