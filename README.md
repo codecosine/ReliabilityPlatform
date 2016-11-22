@@ -1,9 +1,9 @@
 # ReliabilityPlatform
-
-> 一个算法的计算任务列表平台
+> 多功能推理计算平台:一个计算任务列表平台
 
 ## 技术选型
-	vue2.0+bootstrap4
+	vue+vue-router+vue-upload-component
+	bootstrap4
 ## Build Setup
 
 ``` bash
