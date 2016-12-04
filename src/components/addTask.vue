@@ -145,7 +145,7 @@
               isSelected: false,
             },
             {
-              name: 'ILRE',
+              name: 'IIRE',
               args: '',
               isSelected: false,
             },
