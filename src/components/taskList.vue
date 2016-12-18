@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container app-main">
     <div class="container">
       <h3>任务列表</h3>
       <div class="loading" v-if="loading">

@@ -6,13 +6,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import App from './App';
 import addTask from './components/addTask';
+import welcome from './components/welcome';
 import taskList from './components/taskList';
+import predeal from './components/predeal';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
 const routes = [
-  { path: '/', component: addTask },
+  { path: '/', component: welcome },
+  { path: '/predeal', component: predeal },
   { path: '/addTask', component: addTask },
   { path: '/taskList', component: taskList },
 ];
