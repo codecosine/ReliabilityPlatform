@@ -9,12 +9,14 @@ import addTask from './components/addTask';
 import welcome from './components/welcome';
 import taskList from './components/taskList';
 import predeal from './components/predeal';
+import userBehavior from './components/userBehavior';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
 const routes = [
   { path: '/', component: welcome },
+  { path: '/userBehavior', component: userBehavior },
   { path: '/predeal', component: predeal },
   { path: '/addTask', component: addTask },
   { path: '/taskList', component: taskList },
