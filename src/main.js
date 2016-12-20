@@ -10,6 +10,8 @@ import welcome from './components/welcome';
 import taskList from './components/taskList';
 import predeal from './components/predeal';
 import userBehavior from './components/userBehavior';
+import algdocs from './components/algdocs';
+import featureList from './components/featureList';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -20,6 +22,8 @@ const routes = [
   { path: '/predeal', component: predeal },
   { path: '/addTask', component: addTask },
   { path: '/taskList', component: taskList },
+  { path: '/algdocs', component: algdocs },
+  { path: '/featureList', component: featureList },
 ];
 const router = new VueRouter({
   routes,

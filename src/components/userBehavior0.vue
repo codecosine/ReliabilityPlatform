@@ -1,8 +1,22 @@
 <template lang="html">
   <div class="container app-main">
     <div class="row">
-      <div class="col-sm-12">
-        <h2>随机森林</h2>
+      <div class="col-sm-3">
+        <div class="list-group">
+          <div v-for="features in featureList">
+            <a class="docs-group-link">{{ features.group }}</a>
+              <ul class="docs-group-list">
+                <li v-for="item in features.list">
+                  <a @click="selectFeature(item.name)" v-bind:class="{ 'active': this.activeFeature == item.name }" href="">
+                    {{ item.name }}
+                  </a>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
         <form class="featuresForm">
           <div class="form-group">
             <h5 class="page-header">数据序列时间</h5>

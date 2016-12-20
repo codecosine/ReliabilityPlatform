@@ -5,8 +5,11 @@
         <ul class="nav float-xs-left">
           <li class="nav-item">
             <img src="./assets/logo_simple.png" style="width:40px">
-            <router-link class="nav-link home" to="/"> 多功能推理计算平台</router-link>
+            <router-link class="nav-link home" to="/"> 用户行为预测平台</router-link>
           </li>
+          <!-- <li class="nav-item">
+            <router-link class="nav-link" to="/userBehavior" v-bind:class="{ 'active': $route.fullPath === '/userBehavior' }">用户行为特征</router-link>
+          </li> -->
           <li class="nav-item">
             <router-link class="nav-link" to="/taskList" v-bind:class="{ 'active': $route.fullPath === '/taskList' }">数据导入</router-link>
           </li>
@@ -19,10 +22,13 @@
         </ul>
         <ul class="nav float-xs-right">
           <li class="nav-item">
-            <router-link class="nav-link" to="/taskList" v-bind:class="{ 'active': $route.fullPath === '/taskList' }">任务列表</router-link>
+            <router-link class="nav-link" to="/taskList" v-bind:class="{ 'active': $route.fullPath === '/taskList' }">任务管理</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/taskList" v-bind:class="{ 'active': $route.fullPath === '/taskList' }">工具</router-link>
+            <router-link class="nav-link" to="/featureList" v-bind:class="{ 'active': $route.fullPath === '/featureList' }">特征管理</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/algdocs" v-bind:class="{ 'active': $route.fullPath === '/algdocs' }">模型管理</router-link>
           </li>
         </ul>
       </div>

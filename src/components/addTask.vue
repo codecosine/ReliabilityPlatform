@@ -41,13 +41,18 @@
             <div class="col-xs-6">
               <ul class="algorithm-select-list clearfix">
                 <li v-for="item in algorithmList">
-                  <a class="algorithm-select-item" v-on:click="select(item)"
-                     v-bind:class="{ 'algorithm-selected': item.isSelected }" >
+                  <a class="algorithm-select-item" v-on:click="selectAlgorithms(item)"
+                     v-bind:class="{ 'algorithm-selected': algorithms.indexOf(item)!== -1 }" >
                     {{item.name}}
                   </a>
                 </li>
               </ul>
             </div>
+          </div>
+          <div class="form-group row">
+            <span class="text-mute">当前已经选择的算法为:[<span>
+            <span class="text-mute" v-for="item in algorithms">{{item.name}},</span>
+            <span class="text-mute">]</span>
           </div>
           <div class="form-group row">
             <label class="col-xs-1 col-form-label metatit">备注</label>
@@ -126,6 +131,7 @@
           addTaskSuccess: false,
           addTaskFail: false,
           algorithm: 'IRE',
+          algorithms: [],
           remark: '',
           /* 算法参数 */
           algorithmList: [
@@ -156,6 +162,21 @@
             },
             {
               name: 'CRE3',
+              args: '',
+              isSelected: false,
+            },
+            {
+              name: 'Yang',
+              args: '',
+              isSelected: false,
+            },
+            {
+              name: 'Liu',
+              args: '',
+              isSelected: false,
+            },
+            {
+              name: 'Guo',
               args: '',
               isSelected: false,
             },
@@ -203,6 +224,13 @@
         },
       },
       methods: {
+        selectAlgorithms(item) {
+          if (this.algorithms.indexOf(item) !== -1) {
+            this.algorithms.splice(this.algorithms.indexOf(item), 1);
+          } else {
+            this.algorithms.push(item);
+          }
+        },
         addTask() {
           this.$http.post('/calculation/cal',
             {
