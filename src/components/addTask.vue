@@ -50,6 +50,19 @@
             </div>
           </div>
           <div class="form-group row">
+            <label class="col-xs-1 col-form-label metatit">算法参数</label>
+            <div class="col-xs-6">
+              <div class="algorithm-select-list clearfix">
+                <ul v-for="item in algorithms">
+                  <span>{{item.name}}算法参数：</span>
+                  <select id="mySelect" v-model="item.argsValue">
+                    <option v-for="arg in item.argsNames" :value="arg.nameValue">{{ arg.name }}</option>
+                  </select>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
             <span class="text-mute">当前已经选择的算法为:[<span>
             <span class="text-mute" v-for="item in algorithms">{{item.name}},</span>
             <span class="text-mute">]</span>
@@ -130,64 +143,58 @@
           /* 提交任务表单 */
           addTaskSuccess: false,
           addTaskFail: false,
-          algorithm: 'IRE',
           algorithms: [],
           remark: '',
           /* 算法参数 */
           algorithmList: [
             {
               name: 'IRE',
-              args: '',
+              argsNames: '',
               isSelected: true,
             },
             {
               name: 'CRE',
-              args: '',
+              argsNames: [{ nameValue: 'randomInit', name: '随机初始种群' }, { nameValue: 'ireInit', name: 'IRE初始种群' }],
+              argsValue: '',
               isSelected: false,
             },
             {
               name: 'ICRE',
-              args: '',
+              argsNames: ['随机初始种群', 'IRE初始种群'],
+              argsValue: '',
               isSelected: false,
             },
             {
               name: 'IIRE',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
             {
               name: 'IRE3',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
             {
               name: 'CRE3',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
             {
               name: 'Yang',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
             {
               name: 'Liu',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
             {
               name: 'Guo',
-              args: '',
+              argsNames: '',
               isSelected: false,
             },
           ],
-          select(item) {
-            this.algorithm = item.name;
-            this.algorithmList.forEach((ele) => {
-              ele.isSelected = false;
-            });
-            item.isSelected = true;
-          },
           /*
             上传插件配置
            */
@@ -235,7 +242,12 @@
           this.$http.post('/calculation/cal',
             {
               fileName: this.fileName,
-              algoName: this.algorithm,
+              algoName: this.algorithm.map((ele) => {
+                const obj = {};
+                obj.name = ele.name;
+                obj.args = ele.argsValue;
+                return obj;
+              }),
               remark: this.remark,
             })
             .then(() => {

@@ -1,85 +1,44 @@
 <template lang="html">
   <div class="container app-main">
     <div class="row">
-      <div class="col-sm-12">
-        <h2>随机森林</h2>
-        <form class="featuresForm">
-          <div class="form-group">
-            <h5 class="page-header">数据序列时间</h5>
-          </div>
-          <div class="form-group">
-            <h5 class="page-header">数据预处理</h5>
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input">
-              清除31天内无购买的用户
-            </label>
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input">
-              清除双十二数据
-            </label>
-          </div>
-          <div class="form-group">
-              <h5 class="page-header">详细参数配置</h5>
-              <ul class="col-sm-12">
-                <li><p class="text-muted">randomForest:对训练集的数据进行处理，生成决策树</p></li>
-                <li><p class="text-muted">species~:代表需要预测的列,species是列的名称</p></li>
-                <li><p class="text-muted">iris[ind==1]: 生成决策树的训练集</p></li>
-                <li><p class="text-muted">ntree: 生成决策树的数目</p></li>
-                <li><p class="text-muted">mtry: 选择的分裂属性的个数</p></li>
-                <li><p class="text-muted">proximity= TRUE : 表示生成临近矩阵</p></li>
-                <li><p class="text-muted">importance= TRUE : 表示输出分裂属性的重要性</p></li>
+      <div class="col-sm-3">
+        <div class="list-group">
+          <div class="docs-group" v-for="features in featureList">
+            <a class="docs-group-link">{{ features.group }}</a>
+              <ul class="docs-group-list">
+                <li v-for="item in features.list">
+                  <a @click="selectFeature(item.name)" v-bind:class="{ 'active': this.activeFeature == item.name }" href="">
+                    {{ item.name }}
+                  </a>
+                </li>
               </ul>
-              <div class="col-sm-12">
-                <label class="form-check-inline">
-                  <input type="checkbox" class="form-check-input-lg">
-                  randomForest
-                </label>
-                <label class="form-check-inline">
-                  <input type="checkbox" class="form-check-input">
-                  proximity
-                </label>
-                <label class="form-check-inline">
-                  <input type="checkbox" class="form-check-input">
-                  importance
-                </label>
-              </div>
-              <div class="col-sm-3">
-                <label class="h5" for="exampleSelect1">species</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option>col01</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-              <div class="col-sm-3">
-                <label class="h5" for="exampleSelect1">iris</label>
-                <input type="text" class="form-control" placeholder="iris">
-              </div>
-              <div class="col-sm-3">
-                <label class="h5" for="exampleSelect1">mtry</label>
-                <input type="text" class="form-control" placeholder="mtry">
-              </div>
-              <div class="col-sm-3">
-                <label class="h5" for="exampleSelect1">ntree</label>
-                <input type="text" class="form-control" placeholder="ntree">
-              </div>
-
           </div>
-          <div class="form-group">
-            <h5 class="page-header">备注</h5>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="备注">
-            </div><!-- /input-group -->
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary">开始计算</button>
-          </div>
-        </form>
-
-
+        </div>
       </div>
+      <div class="col-lg-9">
+        <div class="form-group row">
+          <h5 class="page-header">特征类型</h5>
+          <div class="col-xs-10">
+            <ul class="algorithm-select-list clearfix">
+              <li v-for="item in features">
+                <a class="algorithm-select-item" v-on:click="select(item.group)"
+                   v-bind:class="{ 'algorithm-selected': selectedFeatures.indexOf(item.group)!== -1 }" >
+                  {{item.group}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div v-for="selected in selectedFeatures">
+            <div v-for="feature in features">
+              <label class="col-sm-12" v-if="feature.group === selected" v-for="item in feature.list">
+                <input type="checkbox" class="form-check-input-lg">
+                {{item.name}}
+              </label>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </template>
@@ -88,10 +47,12 @@
 export default {
   data() {
     return {
-      activeFeature: 'UI用户-商品收藏数量',
-      featureList: [
+      featureLists: ['个体特征', '集体特征'],
+      nameList: ['特征'],
+      selectedFeatures: [],
+      features: [
         {
-          group: '个人特征用户商品对特征',
+          group: '个体特征管理',
           list: [
             {
               url: '/',
@@ -109,11 +70,6 @@ export default {
               url: '/',
               name: 'UI用户-商品购买数量',
             },
-          ],
-        },
-        {
-          group: '个人特征-用户商品对转化率特征',
-          list: [
             {
               url: '/',
               name: 'UI加入购物车-点击转化率',
@@ -133,7 +89,7 @@ export default {
           ],
         },
         {
-          group: '集体特征-用户集体特征',
+          group: '聚集特征管理',
           list: [
             {
               url: '/',
@@ -174,17 +130,36 @@ export default {
           ],
         },
       ],
+      activeFeature: 'UI用户-商品收藏数量',
+      featureList: [
+        {
+          group: '特征管理',
+        },
+        {
+          group: '模型管理',
+        },
+      ],
     };
   },
   methods: {
     selectFeature(name) {
       this.activeFeature = name;
     },
+    select(item) {
+      if (this.selectedFeatures.indexOf(item) !== -1) {
+        this.selectedFeatures.splice(this.selectedFeatures.indexOf(item), 1);
+      } else {
+        this.selectedFeatures.push(item);
+      }
+    },
   },
 };
 </script>
 
 <style lang="css">
+  .docs-group {
+    margin-top: 90px;
+  }
   .featuresForm .form-group{
     margin-top : 10px;
     margin-bottom: 20px;
@@ -195,6 +170,7 @@ export default {
   }
   .docs-group-list {
     display: block;
+    margin-top: 30px;
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
